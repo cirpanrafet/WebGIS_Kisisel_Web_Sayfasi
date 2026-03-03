@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>İletişim – Rafet Çırpan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@8.2.0/ol.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/ol@8.2.0/dist/ol.js"></script>
+  <style>
+    :root {
+      /* SARI LACİVERT PALET */
+      --bg: #000814;
+      --surface: #001d3d;
+      --card: #003566;
+      --accent: #ffc300; /* Parlak Sarı */
+      --accent2: #001d3d; /* Derin Lacivert */
+      --text: #ffd60a;
+      --muted: #5c677d;
+      --border: rgba(255, 195, 0, 0.22);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; overflow-x:hidden; }
+    body::before {
+      content:''; position:fixed; inset:0;
+      background-image:linear-gradient(rgba(255, 195, 0, 0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255, 195, 0, 0.04) 1px,transparent 1px);
+      background-size:60px 60px; z-index:0; animation:gridShift 20s linear infinite;
+    }
+    @keyframes gridShift{0%{transform:translateY(0)}100%{transform:translateY(60px)}}
+    
+    .orb{position:fixed;border-radius:50%;filter:blur(80px);opacity:0.15;z-index:0;}
+    .orb1{width:450px;height:450px;background:var(--accent);top:-100px;right:5%;}
+    .orb2{width:300px;height:300px;background:var(--card);bottom:10%;left:5%;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 4rem;background:rgba(0, 8, 20, 0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:'Space Mono',monospace;font-size:1.1rem;color:var(--accent);}
+    .nav-links{display:flex;gap:2.5rem;list-style:none;}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s;position:relative;}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--accent);transform:scaleX(0);transition:transform 0.3s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent);}
+    .nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1);}
+
+    main{position:relative;z-index:1;padding:8rem 4rem 4rem;max-width:1200px;margin:0 auto;}
+    .page-header{margin-bottom:3rem;animation:fadeSlideUp 0.7s ease both;}
+    .page-tag{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--accent);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem;}
+    .page-title{font-family:'Space Mono',monospace;font-size:clamp(2.5rem,5vw,4rem);line-height:1.1;}
+    .page-title span{color:var(--accent);}
+
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:4rem;animation:fadeSlideUp 0.7s ease 0.15s both;}
+
+    .contact-cards{display:flex;flex-direction:column;gap:1rem;}
+
+    .contact-card{background:var(--card);border:1px solid var(--border);padding:1.75rem 2rem;display:flex;align-items:flex-start;gap:1.25rem;transition:border-color 0.25s,transform 0.25s;text-decoration:none;color:inherit;}
+    .contact-card:hover{border-color:var(--accent);transform:translateX(6px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);}
+
+    /* TikTok card - Lacivert/Sarı uyumu */
+    .contact-card.tiktok-card:hover{border-color:var(--accent);}
+    .contact-card.tiktok-card .contact-icon{background:rgba(255, 195, 0, 0.1);border-color:var(--accent);}
+
+    .contact-icon{width:44px;height:44px;background:rgba(255, 195, 0, 0.08);border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;transition:background 0.25s;}
+    .contact-card:hover .contact-icon{background:rgba(255, 195, 0, 0.15);}
+
+    .contact-label{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.3rem;}
+    .contact-value{font-size:0.95rem;color:#ffffff;}
+
+    .work-info{background:var(--card);border:2px solid var(--accent);padding:2rem;position:relative;overflow:hidden;}
+    .work-info::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg, #ffd60a, #001d3d, #ffd60a);}
+
+    .work-badge{display:inline-block;font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;padding:0.3rem 0.8rem;border:1px solid var(--accent);margin-bottom:1.5rem;}
+    .work-org{font-family:'Space Mono',monospace;font-size:1rem;color:#ffffff;margin-bottom:0.5rem;line-height:1.4;}
+    .work-dept{font-size:0.85rem;color:var(--accent);margin-bottom:1rem;}
+    .work-detail{display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;color:var(--muted);margin-bottom:0.4rem;}
+    .work-detail::before{content:'→';color:var(--accent);font-size:0.75rem;}
+
+    .section-label{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--accent);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
+    .section-label span{color:var(--muted);margin-right:1rem;}
+
+    .map-section{animation:fadeSlideUp 0.7s ease 0.3s both;margin-bottom:4rem;}
+    .map-desc{font-size:0.9rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.7;}
+    .map-wrapper{border:1px solid var(--border);border-radius:2px;overflow:hidden;}
+    #contact-map{width:100%;height:480px;}
+    .map-coords{padding:0.75rem 1rem;background:var(--surface);border:1px solid var(--border);margin-top:0.5rem;font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--muted);border-radius:2px;}
+
+    .ol-popup{position:absolute;background:var(--surface);border:2px solid var(--accent);padding:1rem 1.2rem;border-radius:2px;min-width:220px;transform:translate(-50%,-115%);pointer-events:none;z-index:10; box-shadow: 0 10px 30px rgba(0,0,0,0.5);}
+    .ol-popup::after{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:8px solid var(--accent);}
+    .popup-title{font-family:'Space Mono',monospace;font-size:0.78rem;color:var(--accent);margin-bottom:0.3rem;}
+    .popup-body{font-size:0.78rem;color:#ffffff;line-height:1.5;}
+
+    footer{position:relative;z-index:1;padding:2.5rem 4rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);margin-top:4rem;}
+    .footer-links{display:flex;gap:1.5rem;}
+    .footer-links a{color:var(--muted);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+    .footer-links a:hover{color:var(--accent);}
+    .footer-copy{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--muted);}
+
+    @keyframes fadeSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+    @media(max-width:900px){.contact-grid{grid-template-columns:1fr;}}
+    @media(max-width:600px){
+      nav{padding:1rem 1.5rem;} main{padding:7rem 1.5rem 3rem;}
+      footer{padding:2rem 1.5rem;flex-direction:column;gap:1rem;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <nav>
+    <span class="nav-logo">RC 🔵🟡</span>
+    <ul class="nav-links">
+      <li><a href="index.html">Ana Sayfa</a></li>
+      <li><a href="hakkimda.html">Hakkımda</a></li>
+      <li><a href="hobilerim.html">Hobilerim</a></li>
+      <li><a href="iletisim.html" class="active">İletişim</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="page-header">
+      <div class="page-tag">// 03 — iletisim</div>
+      <h1 class="page-title">Bana <span>Ulaşın</span></h1>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-cards">
+        <a href="tel:+905070573444" class="contact-card">
+          <div class="contact-icon">📱</div>
+          <div>
+            <div class="contact-label">Telefon</div>
+            <div class="contact-value">0507 057 34 44</div>
+          </div>
+        </a>
+        <a href="mailto:cirpanrafet@gmail.com" class="contact-card">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-label">E-posta</div>
+            <div class="contact-value">cirpanrafet@gmail.com</div>
+          </div>
+        </a>
+        <a href="https://github.com/cirpanrafet" target="_blank" class="contact-card">
+          <div class="contact-icon">🐙</div>
+          <div>
+            <div class="contact-label">GitHub</div>
+            <div class="contact-value">github.com/cirpanrafet</div>
+          </div>
+        </a>
+        <a href="https://linkedin.com/in/cirpanrafet" target="_blank" class="contact-card">
+          <div class="contact-icon">💼</div>
+          <div>
+            <div class="contact-label">LinkedIn</div>
+            <div class="contact-value">linkedin.com/in/cirpanrafet</div>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="work-info">
+        <div class="work-badge">🟡 Mevcut Görev</div>
+        <div class="work-org">T.C. Dışişleri Bakanlığı</div>
+        <div class="work-detail">Pozisyon: CBS Uzmanı</div>
+        <div class="work-detail">Başlangıç: Temmuz 2025</div>
+        <div class="work-detail">Şehir: Ankara, Türkiye</div>
+        <div class="work-detail">Alan: Web CBS, Mekansal Analiz, PostGIS</div>
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border);">
+          <div class="work-badge" style="border-color:var(--text);color:var(--text);">🔵 Önceki Görev</div>
+          <div style="font-family:'Space Mono',monospace;font-size:0.85rem;color:#ffffff;margin-top:0.75rem;margin-bottom:0.3rem;">TKGM — Kadastro Müdürlüğü</div>
+          <div style="font-size:0.8rem;color:var(--muted);">Harita Mühendisi · Balıkesir · 2025</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label"><span>//</span> Konum Haritası — Ankara</div>
+    <div class="map-section">
+      <p class="map-desc">
+        Kurumsal lokasyonlarım ve Ankara üzerindeki çalışma alanlarım. 
+      </p>
+      <div class="map-wrapper">
+        <div id="contact-map"></div>
+      </div>
+      <div class="map-coords" id="contact-coords">Haritaya tıklayarak koordinat okuyabilirsiniz.</div>
+    </div>
+  </main>
+
+  <div id="popup" class="ol-popup" style="display:none;">
+    <div class="popup-title" id="popup-title"></div>
+    <div class="popup-body" id="popup-body"></div>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="https://github.com/cirpanrafet" target="_blank">GitHub</a>
+      <a href="https://linkedin.com/in/cirpanrafet" target="_blank">LinkedIn</a>
+      <a href="mailto:cirpanrafet@gmail.com">Email</a>
+    </div>
+    <span class="footer-copy">© 2026 Rafet Çırpan 🔵🟡</span>
+  </footer>
+
+  <script>
+    const places=[
+      {coords:[32.7349,39.9208],name:'T.C. Dışişleri Bakanlığı',desc:'CBS Uzmanı',color:'#ffc300',size:1.2},
+      {coords:[32.7326,39.8669],name:'Hacettepe Üniversitesi',desc:'Geomatik Mühendisliği',color:'#ffffff',size:1.0},
+      {coords:[32.7441,39.8894],name:'Netcad Yazılım A.Ş.',desc:'Analist (2023–2024)',color:'#ffd60a',size:1.0},
+    ];
+
+    function makeSVG(color,scale){
+      const w=Math.round(28*scale),h=Math.round(38*scale);
+      const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 28 38">
+        <path d="M14 0C6.268 0 0 6.268 0 14c0 9.333 14 24 14 24S28 23.333 28 14C28 6.268 21.732 0 14 0z" fill="${color}" stroke="#000814" stroke-width="1.5"/>
+        <circle cx="14" cy="14" r="5" fill="#000814"/>
+      </svg>`;
+      return 'data:image/svg+xml;utf8,'+encodeURIComponent(svg);
+    }
+
+    const features=places.map(p=>{
+      const f=new ol.Feature({
+        geometry:new ol.geom.Point(ol.proj.fromLonLat(p.coords)),
+        name:p.name,desc:p.desc
+      });
+      f.setStyle(new ol.style.Style({image:new ol.style.Icon({src:makeSVG(p.color,p.size),anchor:[0.5,1]})}));
+      return f;
+    });
+
+    const map=new ol.Map({
+      target:'contact-map',
+      layers:[
+        new ol.layer.Tile({source:new ol.source.OSM()}),
+        new ol.layer.Vector({source:new ol.source.Vector({features})})
+      ],
+      view:new ol.View({center:ol.proj.fromLonLat([32.78,39.90]),zoom:11})
+    });
+
+    const popup=document.getElementById('popup');
+    const overlay=new ol.Overlay({element:popup,positioning:'bottom-center',stopEvent:false});
+    map.addOverlay(overlay);
+
+    map.on('click',function(evt){
+      const f=map.forEachFeatureAtPixel(evt.pixel,f=>f);
+      if(f){
+        overlay.setPosition(f.getGeometry().getCoordinates());
+        document.getElementById('popup-title').textContent=f.get('name');
+        document.getElementById('popup-body').innerHTML=f.get('desc');
+        popup.style.display='block';
+      } else {
+        popup.style.display='none';
+      }
+    });
+  </script>
+</body>
+</html>

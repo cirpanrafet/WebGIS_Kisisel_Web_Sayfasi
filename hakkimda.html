@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hakkımda – Rafet Çırpan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      /* SARI LACİVERT PALET */
+      --bg: #000814; /* Gece Mavisi */
+      --surface: #001d3d; /* Koyu Lacivert */
+      --card: #003566; /* Canlı Lacivert */
+      --accent: #ffc300; /* Parlak Sarı */
+      --accent2: #003566; /* Lacivert Vurgu */
+      --text: #ffd60a; /* Açık Sarı Metin */
+      --muted: #5c677d; /* Grimsi Lacivert */
+      --border: rgba(255, 195, 0, 0.22);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; overflow-x:hidden; }
+    body::before {
+      content:''; position:fixed; inset:0;
+      background-image:linear-gradient(rgba(255, 195, 0, 0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255, 195, 0, 0.04) 1px,transparent 1px);
+      background-size:60px 60px; z-index:0; animation:gridShift 20s linear infinite;
+    }
+    @keyframes gridShift{0%{transform:translateY(0)}100%{transform:translateY(60px)}}
+    
+    .orb{position:fixed;border-radius:50%;filter:blur(80px);opacity:0.15;z-index:0;}
+    .orb1{width:500px;height:500px;background:var(--accent);top:10%;right:-150px;} /* Sarı Işıma */
+    .orb2{width:350px;height:350px;background:var(--card);bottom:20%;left:-100px;} /* Lacivert Işıma */
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 4rem;background:rgba(0, 8, 20, 0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:'Space Mono',monospace;font-size:1.1rem;color:var(--accent);}
+    .nav-links{display:flex;gap:2.5rem;list-style:none;}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s;position:relative;}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--accent);transform:scaleX(0);transition:transform 0.3s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent);}
+    .nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1);}
+
+    main{position:relative;z-index:1;padding:8rem 4rem 4rem;max-width:1200px;margin:0 auto;}
+
+    .page-header{margin-bottom:4rem;animation:fadeSlideUp 0.7s ease both;}
+    .page-tag{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--accent);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem;}
+    .page-title{font-family:'Space Mono',monospace;font-size:clamp(2.5rem,5vw,4rem);line-height:1.1;}
+    .page-title span{color:var(--accent);}
+
+    .about-grid{display:grid;grid-template-columns:1fr 2fr;gap:3rem;margin-bottom:5rem;animation:fadeSlideUp 0.7s ease 0.15s both;}
+
+    .info-block{background:var(--card);border:1px solid var(--border);padding:2rem;margin-bottom:1rem; transition: transform 0.3s;}
+    .info-block:hover{transform: translateX(5px); border-color: var(--accent);}
+    .info-label{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;}
+    .info-value{font-size:0.9rem;color:#ffffff;line-height:1.6;}
+
+    .about-text p{color:var(--muted);line-height:1.9;font-size:1.05rem;margin-bottom:1.5rem;}
+    .about-text p strong{color:var(--accent);}
+
+    .section-label{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--accent);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
+    .section-label span{color:var(--muted);margin-right:1rem;}
+
+    .timeline{position:relative;padding-left:2rem;margin-bottom:5rem;animation:fadeSlideUp 0.7s ease 0.3s both;}
+    .timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--accent),transparent);}
+    .timeline-item{position:relative;padding:0 0 2.5rem 2rem;}
+    .timeline-item::before{content:'';position:absolute;left:-5px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);}
+    .tl-date{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--accent);letter-spacing:0.1em;margin-bottom:0.3rem;}
+    .tl-role{font-size:1.05rem;font-weight:600;color:#ffffff;margin-bottom:0.2rem;}
+    .tl-company{font-size:0.85rem;color:var(--muted);margin-bottom:0.75rem;}
+    .tl-desc li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:0.75rem;}
+
+    .skill-bar-item{display:grid;grid-template-columns:180px 1fr 40px;align-items:center;gap:1rem;margin-bottom:1rem;}
+    .skill-name{font-family:'Space Mono',monospace;font-size:0.78rem;color:#ffffff;}
+    .skill-track{height:4px;background:var(--surface);border-radius:2px;overflow:hidden;}
+    /* Skill Fill Gradient Lacivert'ten Sarı'ya */
+    .skill-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:2px;transform-origin:left;animation:fillBar 1.2s cubic-bezier(0.25,1,0.5,1) both;}
+    @keyframes fillBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+    .skill-pct{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--accent);text-align:right;}
+
+    .cert-card{background:var(--card);border:1px solid var(--border);padding:1.5rem;display:flex;align-items:center;gap:1.5rem;margin-bottom:1rem;transition:all 0.3s;animation:fadeSlideUp 0.7s ease 0.6s both;}
+    .cert-card:hover{border-color:var(--accent); transform: translateY(-3px); background:rgba(0, 53, 102, 0.8);}
+    .cert-icon{width:48px;height:48px;background:rgba(255, 195, 0, 0.1);border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+    .cert-name{font-family:'Space Mono',monospace;font-size:0.85rem;color:#ffffff;margin-bottom:0.25rem;}
+    .cert-issuer{font-size:0.8rem;color:var(--muted);}
+
+    footer{position:relative;z-index:1;padding:2.5rem 4rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);margin-top:4rem;}
+    .footer-links{display:flex;gap:1.5rem;}
+    .footer-links a{color:var(--muted);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+    .footer-links a:hover{color:var(--accent);}
+    .footer-copy{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--muted);}
+
+    @keyframes fadeSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+    @media(max-width:768px){
+      nav{padding:1rem 1.5rem;} main{padding:7rem 1.5rem 3rem;}
+      .about-grid{grid-template-columns:1fr;} .skill-bar-item{grid-template-columns:120px 1fr 36px;}
+      footer{padding:2rem 1.5rem;flex-direction:column;gap:1rem;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <nav>
+    <span class="nav-logo">RC 🔵🟡</span>
+    <ul class="nav-links">
+      <li><a href="index.html">Ana Sayfa</a></li>
+      <li><a href="hakkimda.html" class="active">Hakkımda</a></li>
+      <li><a href="hobilerim.html">Hobilerim</a></li>
+      <li><a href="iletisim.html">İletişim</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="page-header">
+      <div class="page-tag">// 01 — hakkimda</div>
+      <h1 class="page-title">Ben <span>Kimim</span>?</h1>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-sidebar">
+        <div class="info-block"><div class="info-label">Pozisyon</div><div class="info-value">CBS Uzmanı</div></div>
+        <div class="info-block"><div class="info-label">Kurum</div><div class="info-value">Dışişleri Bakanlığı</div></div>
+        <div class="info-block"><div class="info-label">Konum</div><div class="info-value">Ankara, Türkiye</div></div>
+        <div class="info-block"><div class="info-label">Eğitim</div><div class="info-value">Hacettepe Üniversitesi<br/>Geomatik Mühendisliği</div></div>
+        <div class="info-block"><div class="info-label">Dil</div><div class="info-value">İngilizce (B1)</div></div>
+        <div class="info-block">
+          <div class="info-label">Bağlantılar</div>
+          <div class="info-value">
+            <a href="https://github.com/cirpanrafet" target="_blank" style="color:var(--accent);text-decoration:none;">GitHub</a> &nbsp;|&nbsp;
+            <a href="https://linkedin.com/in/cirpanrafet" target="_blank" style="color:var(--accent);text-decoration:none;">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-text">
+        <p>Merhaba! Ben <strong>Rafet Çırpan</strong>, Hacettepe Üniversitesi Geomatik Mühendisliği mezunuyum. Şu anda <strong>T.C. Dışişleri Bakanlığı</strong> bünyesinde CBS Uzmanı olarak görev yapıyorum.</p>
+        <p>Kariyerimi <strong>Coğrafi Bilgi Sistemleri</strong> alanında inşa ederek bu sektörde akla gelen ilk mühendislerden biri olmayı hedefliyorum. GeoAcademy programı ve çeşitli projelerle kendimi teknik anlamda sürekli güncel tutuyorum.</p>
+        <p>Hiç pes etmeyen, planlı ve programlı hareket eden bir yapıya sahibim. Tamamladığım her projede kendimden bir <strong>iz bırakmaya</strong> ve kurumsal değer yaratmaya özen gösteririm.</p>
+        <p>Dünyada kısıtlı sayıda uzmanın sahip olduğu <strong>ArcGIS PRO Associate</strong> sertifikasıyla, mekansal veri yönetimi ve analiz süreçlerini profesyonel standartlarda yönetiyorum.</p>
+      </div>
+    </div>
+
+    <div class="section-label"><span>//</span> Deneyim</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="tl-date">TEMMUZ 2025 — HALEN</div>
+        <div class="tl-role">CBS Uzmanı</div>
+        <div class="tl-company">T.C. Dışişleri Bakanlığı, Ankara</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">2024 — 2025</div>
+        <div class="tl-role">GeoAcademy & ArcGIS Uzmanlık</div>
+        <div class="tl-company">Esri Türkiye, Ankara</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">2023 — 2024</div>
+        <div class="tl-role">Teknoloji Çözümleri Analisti</div>
+        <div class="tl-company">Netcad Yazılım A.Ş.</div>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-bottom:1.5rem;"><span>//</span> Teknik Yetkinlikler</div>
+    <div style="margin-bottom:5rem;animation:fadeSlideUp 0.7s ease 0.45s both;">
+      <div class="skill-bar-item"><span class="skill-name">ArcGIS PRO</span><div class="skill-track"><div class="skill-fill" style="width:100%;"></div></div><span class="skill-pct">10/10</span></div>
+      <div class="skill-bar-item"><span class="skill-name">PostGIS / PostgreSQL</span><div class="skill-track"><div class="skill-fill" style="width:90%;"></div></div><span class="skill-pct">9/10</span></div>
+      <div class="skill-bar-item"><span class="skill-name">Netcad GIS</span><div class="skill-track"><div class="skill-fill" style="width:90%;"></div></div><span class="skill-pct">9/10</span></div>
+      <div class="skill-bar-item"><span class="skill-name">Web CBS (OpenLayers/Leaflet)</span><div class="skill-track"><div class="skill-fill" style="width:80%;"></div></div><span class="skill-pct">8/10</span></div>
+    </div>
+
+    <div class="section-label"><span>//</span> Sertifikalar</div>
+    <div class="cert-card">
+      <div class="cert-icon">🏅</div>
+      <div>
+        <div class="cert-name">ArcGIS PRO Associate 2101</div>
+        <div class="cert-issuer">Esri — Uluslararası Geçerliliğe Sahip Teknik Sertifika</div>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top:4rem;"><span>//</span> Projeler</div>
+    <div class="cert-card">
+      <div class="cert-icon">🏛️</div>
+      <div>
+        <div class="cert-name">Hacettepe Beytepe Web Tabanlı CBS</div>
+        <div class="cert-issuer">Bitirme Projesi — harita.hacettepe.edu.tr</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <a href="https://github.com/cirpanrafet" target="_blank">GitHub</a>
+      <a href="https://linkedin.com/in/cirpanrafet" target="_blank">LinkedIn</a>
+    </div>
+    <span class="footer-copy">© 2026 Rafet Çırpan 🔵🟡</span>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rafet Çırpan – CBS Uzmanı</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      /* ANA RENK PALETİ: SARI & LACİVERT */
+      --bg: #000814; /* Çok koyu lacivert (Siyaha yakın) */
+      --surface: #001d3d; /* Koyu lacivert */
+      --card: #003566; /* Canlı lacivert */
+      --accent: #ffc300; /* Parlak Sarı */
+      --accent2: #003566; /* Lacivert Vurgu */
+      --text: #ffd60a; /* Açık Sarı Metin */
+      --muted: #5c677d; /* Grimsi Lacivert */
+      --border: rgba(255, 195, 0, 0.3); /* Sarı transparan kenarlık */
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 195, 0, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 195, 0, 0.04) 1px, transparent 1px);
+      background-size: 60px 60px; z-index: 0;
+      animation: gridShift 20s linear infinite;
+    }
+    @keyframes gridShift { 0%{transform:translateY(0)} 100%{transform:translateY(60px)} }
+
+    .orb { position:fixed; border-radius:50%; filter:blur(90px); opacity:0.15; z-index:0; animation:orbFloat 8s ease-in-out infinite; }
+    .orb1 { width:500px; height:500px; background:var(--accent); top:-150px; left:-150px; }
+    .orb2 { width:400px; height:400px; background:var(--card); bottom:-80px; right:5%; animation-delay:-4s; }
+    @keyframes orbFloat { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-30px)} }
+
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1.2rem 4rem;
+      background:rgba(0, 8, 20, 0.92); backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-logo { font-family:'Space Mono',monospace; font-size:1.1rem; color:var(--accent); }
+    .nav-links { display:flex; gap:2.5rem; list-style:none; }
+    .nav-links a {
+      color:var(--muted); text-decoration:none; font-size:0.9rem;
+      font-weight:500; transition:color 0.2s; position:relative;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-4px; left:0; right:0; height:1px;
+      background:var(--accent); transform:scaleX(0); transition:transform 0.3s;
+    }
+    .nav-links a:hover { color:var(--accent); }
+    .nav-links a:hover::after { transform:scaleX(1); }
+
+    .hero {
+      position:relative; z-index:1; min-height:100vh;
+      display:flex; align-items:center; padding:8rem 4rem 4rem;
+    }
+    .hero-content { max-width:1050px; }
+
+    .hero-tag {
+      display:inline-flex; align-items:center; gap:0.5rem;
+      font-family:'Space Mono',monospace; font-size:0.75rem;
+      color:var(--accent); letter-spacing:0.15em; text-transform:uppercase;
+      margin-bottom:2rem; padding:0.4rem 1rem;
+      border:1px solid var(--border); border-radius:2px;
+      animation:fadeSlideUp 0.8s ease both;
+    }
+    .hero-tag::before { content:'🔵'; animation:spin 4s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    .hero-name {
+      font-family:'Space Mono',monospace;
+      font-size:clamp(3rem,8vw,6rem); font-weight:700;
+      line-height:1; letter-spacing:-0.02em;
+    }
+    .hero-name span { display:block; color:var(--accent); }
+    /* Outline yazısı artık koyu lacivert/vurgu renginde */
+    .hero-name .outline { -webkit-text-stroke:1.5px var(--accent); color:transparent; }
+
+    .hero-title {
+      font-size:1rem; color:var(--muted); margin-top:1.5rem;
+      letter-spacing:0.05em;
+    }
+    .hero-title strong { color:var(--text); }
+
+    .hero-desc {
+      font-size:1rem; color:var(--muted); max-width:650px;
+      line-height:1.8; margin-top:1.2rem;
+    }
+
+    /* ====== ACHIEVEMENT BANNER (YELLOW-NAVY THEME) ====== */
+    .achievement-banner {
+      margin-top:2.5rem;
+      padding:2rem 2.5rem;
+      background:linear-gradient(135deg,rgba(0, 53, 102, 0.4),rgba(255, 195, 0, 0.05));
+      border:2px solid var(--accent);
+      position:relative; overflow:hidden;
+      animation:fadeSlideUp 0.8s ease 0.55s both;
+    }
+    .achievement-banner::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(90deg,transparent,rgba(255, 195, 0, 0.1),transparent);
+      animation:shimmer 2s linear infinite;
+    }
+    @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+
+    .achievement-eyebrow {
+      font-family:'Space Mono',monospace; font-size:0.65rem;
+      color:var(--accent); letter-spacing:0.2em; text-transform:uppercase;
+      margin-bottom:1rem; display:flex; align-items:center; gap:0.5rem;
+    }
+    .badge-pulse {
+      display:inline-block; background:var(--accent); color:var(--bg);
+      font-family:'Space Mono',monospace; font-size:0.6rem;
+      font-weight: bold;
+      padding:0.2rem 0.6rem; letter-spacing:0.1em;
+      animation:badgePulse 1.4s ease-in-out infinite;
+    }
+    @keyframes badgePulse {
+      0%,100%{box-shadow:0 0 0 0 rgba(255, 195, 0, 0.4);}
+      50%{box-shadow:0 0 0 8px rgba(255, 195, 0, 0);}
+    }
+
+    .achievement-headline {
+      font-family:'Space Mono',monospace;
+      font-size:clamp(1.4rem,4vw,2.6rem);
+      font-weight:700; line-height:1.15;
+      animation:flashText 1.1s ease-in-out infinite;
+    }
+    @keyframes flashText {
+      0%,100% {
+        color:var(--accent);
+        text-shadow:0 0 12px rgba(255, 195, 0, 0.6);
+      }
+      50% {
+        color:#ffffff;
+        text-shadow:0 0 18px rgba(255, 195, 0, 0.8);
+      }
+    }
+
+    .achievement-sub {
+      font-size:0.85rem; color:var(--muted);
+      margin-top:0.75rem; line-height:1.6;
+    }
+    .achievement-sub strong { color:var(--text); }
+
+    .hero-cta {
+      display:flex; gap:1rem; margin-top:2.5rem;
+      animation:fadeSlideUp 0.8s ease 0.7s both;
+    }
+    .btn {
+      display:inline-flex; align-items:center; gap:0.5rem;
+      padding:0.85rem 2rem; font-family:'Space Mono',monospace;
+      font-size:0.8rem; letter-spacing:0.1em;
+      text-decoration:none; border-radius:2px; transition:all 0.25s; border:none; cursor:pointer;
+    }
+    .btn-primary { background:var(--accent); color:var(--bg); font-weight:700; }
+    .btn-primary:hover { background:#fff; transform:translateY(-2px); box-shadow:0 8px 24px rgba(255, 195, 0, 0.2); }
+    .btn-secondary { background:transparent; color:var(--text); border:1px solid var(--border); }
+    .btn-secondary:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-2px); }
+
+    footer {
+      position:relative; z-index:1; padding:3rem 4rem;
+      display:flex; justify-content:space-between; align-items:center;
+      border-top:1px solid var(--border); margin-top:4rem;
+      background: rgba(0, 8, 20, 0.5);
+    }
+    .footer-links { display:flex; gap:1.5rem; }
+    .footer-links a { color:var(--muted); text-decoration:none; font-size:0.85rem; transition:color 0.2s; }
+    .footer-links a:hover { color:var(--accent); }
+    .footer-copy { font-family:'Space Mono',monospace; font-size:0.7rem; color:var(--muted); }
+
+    .cursor {
+      display:inline-block; width:3px; height:1em;
+      background:var(--accent); margin-left:4px; vertical-align:middle;
+      animation:blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    @keyframes fadeSlideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    @media(max-width:768px){
+      nav{padding:1rem 1.5rem;}
+      .hero{padding:7rem 1.5rem 3rem;}
+      footer{padding:2.5rem 1.5rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <nav>
+    <span class="nav-logo">RC 🔵🟡</span>
+    <ul class="nav-links">
+      <li><a href="index.html">Ana Sayfa</a></li>
+      <li><a href="hakkimda.html">Hakkımda</a></li>
+      <li><a href="hobilerim.html">Hobilerim</a></li>
+      <li><a href="iletisim.html">İletişim</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">CBS Uzmanı &amp; Geomatik Mühendisi</div>
+      <h1 class="hero-name">
+        <span>Rafet</span>
+        <span class="outline">Çırpan</span>
+      </h1>
+      <p class="hero-title">
+        <strong>T.C. Dışişleri Bakanlığı</strong> — Ankara
+      </p>
+      <p class="hero-desc">
+        Coğrafi Bilgi Sistemleri alanında uzmanlaşmış bir Geomatik Mühendisi. Web tabanlı CBS, mekansal analiz ve veritabanı yönetimi konularında deneyimli.<span class="cursor"></span>
+      </p>
+
+      <div class="achievement-banner">
+        <div class="achievement-eyebrow">
+          <span class="badge-pulse">ESRI ONAYLIDIR</span>
+          🏆 Başarı
+        </div>
+        <div class="achievement-headline">
+          ArcGIS PRO Associate Belgesi
+        </div>
+        <div class="achievement-sub">
+          <strong>ArcGIS Pro Certified Professional</strong>
+        </div>
+      </div>
+
+      <div class="hero-cta">
+        <a href="hakkimda.html" class="btn btn-primary">→ Hakkımda</a>
+        <a href="iletisim.html" class="btn btn-secondary">İletişim</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="https://github.com/cirpanrafet" target="_blank">GitHub</a>
+      <a href="https://linkedin.com/in/cirpanrafet" target="_blank">LinkedIn</a>
+      <a href="mailto:cirpanrafet@gmail.com">Email</a>
+    </div>
+    <span class="footer-copy">2026 Rafet Çırpan 🔵🟡 ©</span>
+  </footer>
+</body>
+</html>
